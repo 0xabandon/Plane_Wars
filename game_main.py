@@ -13,6 +13,8 @@ class PlaneGame(object):
         self.__creat_sprites()
         #设置创建敌机
         pygame.time.set_timer(ENEMY_EVENT,1000)
+        #设置发射子弹
+        pygame.time.set_timer(HERO_FIRE_EVENT,500)
     def __creat_sprites(self):
         #创建背景精灵和精灵组
         bg1 = Background()
@@ -49,6 +51,9 @@ class PlaneGame(object):
                 enemy = Enemy()
                 #将敌机精灵添加到敌机精灵组
                 self.enemy_group.add(enemy)
+            #发射子弹
+            elif event.type == HERO_FIRE_EVENT:
+                self.hero.fire()
         #使用键盘提供的方法获取键盘按键(按键元组)
         keys_pressed = pygame.key.get_pressed()
         #判断元组中对应的按键索引值 1
@@ -64,7 +69,15 @@ class PlaneGame(object):
             self.hero.speed = 0
             self.hero.speed_2 = 0
     def __check_collide(self):
-        pass
+        #子弹摧毁敌机
+        pygame.sprite.groupcollide(self.hero.bullets,self.enemy_group,True,True)
+        #敌机摧毁英雄
+        enemies = pygame.sprite.spritecollide(self.hero,self.enemy_group,True)
+        if len(enemies) > 0:
+            #英雄牺牲
+            self.hero.kill()
+            #结束游戏
+            PlaneGame.__game_over()
     def __update_sprites(self):
         self.back_group.update()
         self.back_group.draw(self.windows)
@@ -74,6 +87,9 @@ class PlaneGame(object):
 
         self.hero_group.update()
         self.hero_group.draw(self.windows)
+
+        self.hero.bullets.update()
+        self.hero.bullets.draw(self.windows)
     #静态方法
     @staticmethod
     def __game_over():

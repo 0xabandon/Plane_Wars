@@ -23,6 +23,7 @@ class Hero(pygame.sprite.Sprite):
             self.height - self.rect.h - 60
         self.speed = 10
         self.active = True
+        self.invincible = False
         self.mask = pygame.mask.from_surface(self.image1)
         self.mask = pygame.mask.from_surface(self.image2)
 
@@ -50,3 +51,10 @@ class Hero(pygame.sprite.Sprite):
             self.rect.left += self.speed
         else:
             self.rect.right = self.width
+
+    def reset(self):
+        self.rect.left, self.rect.top = \
+            (self.width - self.rect.width) // 2, \
+            self.height - self.rect.height - 60
+        self.active = True
+        self.invincible = True

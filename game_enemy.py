@@ -2,6 +2,7 @@ import pygame
 from random import *
 
 class SmallEnemy(pygame.sprite.Sprite):
+    energy = 1
     def __init__(self,enemy_size):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("./image/enemy0.png").convert_alpha()
@@ -20,6 +21,7 @@ class SmallEnemy(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = \
             randint(0,self.width - self.rect.width), \
             randint(-5 * self.height,0)
+        self.energy = SmallEnemy.energy
 
     def move(self):
         if self.rect.top < self.height:
@@ -29,14 +31,17 @@ class SmallEnemy(pygame.sprite.Sprite):
 
     def reset(self):
         self.active = True
+        self.energy = SmallEnemy.energy
         self.rect.left,self.rect.top = \
             randint(0, self.width - self.rect.width), \
             randint(-5 * self.height, 0)
 
 class MidEnemy(pygame.sprite.Sprite):
+    energy = 8
     def __init__(self,enemy_size):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("./image/enemy1.png").convert_alpha()
+        self.image_hit = pygame.image.load("./image/enemy1_hit.png").convert_alpha()
         self.destroy_images = []
         self.destroy_images.extend([ \
             pygame.image.load("./image/enemy1_down1.png").convert_alpha(), \
@@ -52,6 +57,8 @@ class MidEnemy(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = \
             randint(0,self.width - self.rect.width), \
             randint(-10 * self.height,-self.height)
+        self.energy = MidEnemy.energy
+        self.hit = False
 
     def move(self):
         if self.rect.top < self.height:
@@ -61,15 +68,18 @@ class MidEnemy(pygame.sprite.Sprite):
 
     def reset(self):
         self.active = True
+        self.energy = MidEnemy.energy
         self.rect.left,self.rect.top = \
             randint(0, self.width - self.rect.width), \
             randint(-10 * self.height, -self.height)
 
 class BossEnemy(pygame.sprite.Sprite):
+    energy = 15
     def __init__(self,enemy_size):
         pygame.sprite.Sprite.__init__(self)
         self.image1 = pygame.image.load("./image/enemy2.png").convert_alpha()
         self.image2 = pygame.image.load("./image/enemy2_n2.png").convert_alpha()
+        self.image_hit = pygame.image.load("./image/enemy2_hit.png").convert_alpha()
         self.destroy_images = []
         self.destroy_images.extend([ \
             pygame.image.load("./image/enemy2_down1.png").convert_alpha(), \
@@ -84,10 +94,11 @@ class BossEnemy(pygame.sprite.Sprite):
         self.speed = 1
         self.active = True
         self.mask = pygame.mask.from_surface(self.image1)
-        self.mask = pygame.mask.from_surface(self.image2)
         self.rect.left, self.rect.top = \
             randint(0,self.width - self.rect.width), \
             randint(-15 * self.height,-5 * self.height)
+        self.energy = BossEnemy.energy
+        self.hit = False
 
     def move(self):
         if self.rect.top < self.height:
@@ -97,6 +108,7 @@ class BossEnemy(pygame.sprite.Sprite):
 
     def reset(self):
         self.active = True
+        self.energy = BossEnemy.energy
         self.rect.left,self.rect.top = \
             randint(0, self.width - self.rect.width), \
             randint(-15 * self.height, -5 * self.height)

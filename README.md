@@ -1,8 +1,8 @@
-## Star History
+# Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=0xabandon/Plane_Wars&type=Date)](https://star-history.com/#0xabandon/Plane_Wars&Date)
 
-## 基本设定
+# 基本设定
 
 - 玩家可通过方向键来操控己方飞机移动，通过走位躲过敌方的攻击，并利用自动发出的子弹攻击敌方，子弹的射程并非全屏,而大概是屏幕长度的80%
 
